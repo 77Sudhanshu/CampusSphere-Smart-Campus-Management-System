@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CampusSphere - Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            overflow:hidden;
+        }
+
+        .container-fluid{
+            height:100vh;
+        }
+
+        /* Left Section */
+        .left-panel{
+            background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+            color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            padding:60px;
+            position:relative;
+        }
+
+        .logo{
+            position:absolute;
+            top:40px;
+            left:50px;
+            font-size:32px;
+            font-weight:bold;
+            color:#38bdf8;
+        }
+
+        .logo span{
+            color:white;
+        }
+
+        .hero-title{
+            font-size:56px;
+            font-weight:800;
+            line-height:1.1;
+        }
+
+        .hero-title .highlight{
+            color:#38bdf8;
+        }
+
+        .hero-text{
+            margin-top:20px;
+            font-size:20px;
+            color:#dbeafe;
+            max-width:500px;
+        }
+
+        .feature-box{
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:18px;
+            padding:25px;
+            margin-top:30px;
+        }
+
+        .feature-box h5{
+            margin-top:10px;
+            color:white;
+        }
+
+        .feature-box p{
+            color:#cbd5e1;
+            margin-bottom:0;
+        }
+
+        .stats{
+            display:flex;
+            gap:40px;
+            margin-top:50px;
+        }
+
+        .stats h3{
+            color:#38bdf8;
+            font-weight:700;
+        }
+
+        .stats p{
+            color:#cbd5e1;
+            margin:0;
+        }
+
+        /* Right Section */
+        .right-panel{
+            background:#f8fafc;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .login-card{
+            width:100%;
+            max-width:450px;
+            background:white;
+            border-radius:22px;
+            padding:40px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .login-card h1{
+            font-size:42px;
+            font-weight:800;
+            color:#0f172a;
+            text-align:center;
+        }
+
+        .login-card p{
+            text-align:center;
+            color:#64748b;
+            margin-bottom:30px;
+        }
+
+        .role-switch{
+            display:flex;
+            gap:10px;
+            margin-bottom:25px;
+        }
+
+        .role-switch a{
+            flex:1;
+            text-align:center;
+            padding:12px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .student-btn{
+            border:1px solid #cbd5e1;
+            color:#475569;
+        }
+
+        .admin-active{
+            background:#2563eb;
+            color:white;
+        }
+
+        .form-control{
+            height:52px;
+            border-radius:12px;
+            border:1px solid #cbd5e1;
+        }
+
+        .btn-login{
+            width:100%;
+            height:52px;
+            border-radius:12px;
+            background:#2563eb;
+            border:none;
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .btn-login:hover{
+            background:#1d4ed8;
+        }
+
+        .footer-note{
+            text-align:center;
+            color:#64748b;
+            margin-top:25px;
+            font-size:14px;
+        }
+
+        @media (max-width:992px){
+            .left-panel{
+                display:none;
+            }
+
+            .right-panel{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row h-100">
+
+        <!-- LEFT PANEL -->
+        <div class="col-lg-6 left-panel">
+
+            <div class="logo">
+                🎓 <span>CampusSphere</span>
+            </div>
+
+            <h1 class="hero-title">
+                Smart Campus,<br>
+                <span class="highlight">Better Tomorrow.</span>
+            </h1>
+
+            <p class="hero-text">
+                A modern platform to submit, track and resolve campus complaints efficiently.
+            </p>
+
+            <div class="feature-box">
+                <h5>📊 Administrative Dashboard</h5>
+                <p>Manage complaints, update statuses, and monitor campus operations.</p>
+            </div>
+
+            <div class="feature-box">
+                <h5>⚡ Real-Time Monitoring</h5>
+                <p>View complaint statistics and maintenance activity across the campus.</p>
+            </div>
+
+            <div class="stats">
+                <div>
+                    <h3>10K+</h3>
+                    <p>Students</p>
+                </div>
+
+                <div>
+                    <h3>25K+</h3>
+                    <p>Issues Resolved</p>
+                </div>
+
+                <div>
+                    <h3>24/7</h3>
+                    <p>Support</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="col-lg-6 right-panel">
+
+            <div class="login-card">
+
+                <h1>Admin Login</h1>
+
+                <p>Login to continue to CampusSphere Administrator Portal</p>
+
+                <div class="role-switch">
+                    <a href="/student-login" class="student-btn">Student Login</a>
+                    <a href="/admin-login" class="admin-active">Admin Login</a>
+                </div>
+
+                <form action="/admin-auth" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">Administrator ID</label>
+                        <input type="text" name="adminId" class="form-control"
+                               placeholder="Enter administrator ID" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-login">
+                        Login as Administrator
+                    </button>
+
+                </form>
+
+                <div class="footer-note">
+                    🔒 Administrative access is secured and monitored
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

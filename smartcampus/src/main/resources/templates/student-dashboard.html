@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CampusSphere - Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#f1f5f9;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .sidebar{
+            width:240px;
+            background:#0f172a;
+            color:white;
+            min-height:100vh;
+            position:fixed;
+            left:0;
+            top:0;
+            padding:25px 20px;
+        }
+
+        .sidebar h2{
+            color:#38bdf8;
+            font-weight:bold;
+            margin-bottom:30px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:#cbd5e1;
+            text-decoration:none;
+            padding:12px 15px;
+            border-radius:10px;
+            margin-bottom:10px;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover{
+            background:#1e293b;
+            color:white;
+        }
+
+        .content{
+            margin-left:260px;
+            padding:30px;
+        }
+
+        .profile-card{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom:25px;
+        }
+
+        .action-card{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            transition:0.3s;
+        }
+
+        .action-card:hover{
+            transform:translateY(-5px);
+        }
+
+        .table-card{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            margin-top:25px;
+        }
+
+        .table thead{
+            background:#1e293b;
+            color:white;
+        }
+        .logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.logo-icon{
+    font-size:32px;
+}
+
+.logo-text{
+    color:#38bdf8;
+    font-size:22px;
+    font-weight:700;
+    line-height:1;
+}
+
+.logo-sub{
+    color:#94a3b8;
+    font-size:12px;
+}
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+    <span class="logo-icon">🎓</span>
+    <div>
+        <div class="logo-text">CampusSphere</div>
+        <div class="logo-sub">Student Portal</div>
+    </div>
+</div>
+
+    <a href="/student-dashboard">Dashboard</a>
+    <a href="/complaint">Submit Complaint</a>
+    <a href="/track">Track Complaint</a>
+    <a href="/">Logout</a>
+
+    <hr style="border-color: rgba(255,255,255,0.2); margin:20px 0;">
+
+    <small style="opacity:0.7;">Student Portal</small>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+
+    <!-- Profile -->
+    <div class="profile-card">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h2>Welcome, <span th:text="${studentName}"></span></h2>
+<p class="text-muted mb-1">
+    Department: <span th:text="${department}"></span>
+</p>
+
+<p class="text-muted mb-0">
+    Enrollment: <span th:text="${enrollment}"></span>
+</p>
+            </div>
+
+            <div class="text-end">
+                <span class="badge bg-success fs-6">Student</span>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Notification -->
+<div th:if="${notification}" class="alert alert-info shadow-sm mb-4">
+    <strong>🔔 Notification:</strong>
+    <span th:text="${notification}"></span>
+</div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <div class="action-card text-center">
+
+                <h4>Submit New Complaint</h4>
+
+                <p class="text-muted">
+                    Report Wi-Fi, electricity, library, classroom,
+                    hostel or maintenance issues.
+                </p>
+
+                <a href="/complaint" class="btn btn-primary btn-lg">
+                    Submit Complaint
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="action-card text-center">
+
+                <h4>Track Complaint Status</h4>
+
+                <p class="text-muted">
+                    Check whether your complaint is pending,
+                    in progress or resolved.
+                </p>
+
+                <a href="/track" class="btn btn-success btn-lg">
+                    Track Complaint
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Complaints -->
+    <div class="table-card">
+
+        <h4 class="mb-3">Recent Complaint History</h4>
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+            <tr>
+                <th>Complaint ID</th>
+                <th>Issue</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+<tr th:each="c : ${complaints}">
+
+    <td th:text="${'CS-2026-' + (1000 + c.id)}"></td>
+
+    <td th:text="${c.issueType}"></td>
+
+    <td>
+        <span th:if="${c.priority == 'Low'}"
+              class="badge bg-success"
+              th:text="${c.priority}"></span>
+
+        <span th:if="${c.priority == 'Medium'}"
+              class="badge bg-warning text-dark"
+              th:text="${c.priority}"></span>
+
+        <span th:if="${c.priority == 'High'}"
+              class="badge bg-danger"
+              th:text="${c.priority}"></span>
+
+        <span th:if="${c.priority == 'Critical'}"
+              class="badge bg-dark"
+              th:text="${c.priority}"></span>
+    </td>
+
+    <td>
+        <span th:if="${c.status == 'Pending'}"
+              class="badge bg-warning text-dark"
+              th:text="${c.status}"></span>
+
+        <span th:if="${c.status == 'In Progress'}"
+              class="badge bg-info text-dark"
+              th:text="${c.status}"></span>
+
+        <span th:if="${c.status == 'Resolved'}"
+              class="badge bg-success"
+              th:text="${c.status}"></span>
+    </td>
+
+</tr>
+
+<tr th:if="${#lists.isEmpty(complaints)}">
+    <td colspan="4" class="text-center text-muted">
+        No complaints submitted yet.
+    </td>
+</tr>
+
+</tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
